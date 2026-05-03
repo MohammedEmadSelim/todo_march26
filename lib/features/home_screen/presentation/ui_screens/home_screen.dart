@@ -91,6 +91,7 @@ class HomeScreen extends StatelessWidget {
             isScrollControlled: true,
             context: context,
             builder: (context) => Container(
+              padding: EdgeInsets.symmetric(horizontal: 2.w),
               height: 85.h,
               width: 100.w,
               decoration: BoxDecoration(color: AppColors.secondaryPink),
