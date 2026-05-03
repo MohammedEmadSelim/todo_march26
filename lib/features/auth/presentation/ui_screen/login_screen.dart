@@ -1,15 +1,19 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 import 'package:todo_march26/core/theme/app_colors.dart';
 import 'package:todo_march26/core/utlies/widgets/custom_button.dart';
 import 'package:todo_march26/features/auth/presentation/components/custom_auth_text_field.dart';
+import 'package:todo_march26/features/auth/presentation/controllers/auth_cubit/auth_cubit.dart';
 import 'package:todo_march26/features/auth/presentation/ui_screen/sign_up_screen.dart';
+import 'package:todo_march26/features/home_screen/presentation/ui_screens/home_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
 
   final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +26,9 @@ class LoginScreen extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  context.locale.languageCode.toString() == "en" ? "En":"العربيه",
+                  context.locale.languageCode.toString() == "en"
+                      ? "En"
+                      : "العربيه",
                   style: TextStyle(
                     color: AppColors.primaryPink,
                     fontWeight: FontWeight.w600,
@@ -45,8 +51,7 @@ class LoginScreen extends StatelessWidget {
             },
 
             // 3. The list of options in the menu
-            itemBuilder: (BuildContext context) =>
-            [
+            itemBuilder: (BuildContext context) => [
               const PopupMenuItem<String>(value: "en", child: Text("English")),
               const PopupMenuItem<String>(value: "ar", child: Text("العربية")),
             ],
@@ -111,7 +116,8 @@ class LoginScreen extends StatelessWidget {
             ),
             SizedBox(height: 2.h),
             CustomTextFormField(
-              controller: emailController,
+              obscureText: true,
+              controller: passwordController,
               hint: "password".tr(),
             ),
             SizedBox(height: 2.h),
@@ -133,7 +139,62 @@ class LoginScreen extends StatelessWidget {
               ],
             ),
             SizedBox(height: 2.h),
-            CustomButton(onTap: () {}, title: "sign_in".tr()),
+            BlocConsumer<AuthCubit, AuthState>(
+              listener: (context, state) {
+                if (state is AuthLoginSuccess) {
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => HomeScreen()),
+                    (route) => false,
+                  );
+                }
+                if (state is AuthLoginFailure) {
+                  showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      title: Text(
+                        "Error",
+                        style: TextStyle(
+                          color: AppColors.red,
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      content: Text(
+                        state.message,
+                        style: TextStyle(
+                          color: AppColors.red,
+                          fontSize: 13.sp,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      actions: [
+                        CustomButton(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          title: "ok",
+                        ),
+                      ],
+                    ),
+                  );
+                }
+              },
+              builder: (context, state) {
+                if (state is AuthLoginLoading) {
+                  return Center(child: CircularProgressIndicator());
+                }
+                return CustomButton(
+                  onTap: () {
+                    context.read<AuthCubit>().login(
+                      emailController.text,
+                      passwordController.text,
+                    );
+                  },
+                  title: "sign_in".tr(),
+                );
+              },
+            ),
             SizedBox(height: 2.h),
 
             Row(

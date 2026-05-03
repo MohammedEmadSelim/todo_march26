@@ -94,7 +94,10 @@ class HomeScreen extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 2.w),
               height: 85.h,
               width: 100.w,
-              decoration: BoxDecoration(color: AppColors.secondaryPink),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16.roundToDouble()),
+                color: AppColors.secondaryPink,
+              ),
               child: Column(
                 children: [
                   SizedBox(height: 1.h),
