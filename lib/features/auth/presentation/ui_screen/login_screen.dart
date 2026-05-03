@@ -15,6 +15,8 @@ class LoginScreen extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -104,127 +106,151 @@ class LoginScreen extends StatelessWidget {
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 2.w),
-        child: Column(
-          children: [
-            SizedBox(height: 10.h),
-            Image.asset("assets/images/logo.png"),
-            SizedBox(height: 4.h),
+        child: Form(
+          key: formKey,
+          child: Column(
+            children: [
+              SizedBox(height: 10.h),
+              Image.asset("assets/images/logo.png"),
+              SizedBox(height: 4.h),
 
-            CustomTextFormField(
-              controller: emailController,
-              hint: "email".tr(),
-            ),
-            SizedBox(height: 2.h),
-            CustomTextFormField(
-              obscureText: true,
-              controller: passwordController,
-              hint: "password".tr(),
-            ),
-            SizedBox(height: 2.h),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                GestureDetector(
-                  onTap: () {},
-                  child: Text(
-                    "forget_password".tr(),
-                    textAlign: TextAlign.end,
+              CustomTextFormField(
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "this field can\'nt be empty";
+                  }
+                  var reg = RegExp(
+                    r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
+
+                  );
+
+                  if(!reg.hasMatch(value)){
+                    return "valid_message".tr();
+                  }
+
+                },
+                controller: emailController,
+                hint: "email".tr(),
+              ),
+              SizedBox(height: 2.h),
+              CustomTextFormField(
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "this field can\'nt be empty";
+                  }
+                },
+                obscureText: true,
+                controller: passwordController,
+                hint: "password".tr(),
+              ),
+              SizedBox(height: 2.h),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  GestureDetector(
+                    onTap: () {},
+                    child: Text(
+                      "forget_password".tr(),
+                      textAlign: TextAlign.end,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 14.sp,
+                        color: AppColors.grey,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 2.h),
+              BlocConsumer<AuthCubit, AuthState>(
+                listener: (context, state) {
+                  if (state is AuthLoginSuccess) {
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (context) => HomeScreen()),
+                      (route) => false,
+                    );
+                  }
+                  if (state is AuthLoginFailure) {
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title: Text(
+                          "Error",
+                          style: TextStyle(
+                            color: AppColors.red,
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        content: Text(
+                          state.message,
+                          style: TextStyle(
+                            color: AppColors.red,
+                            fontSize: 13.sp,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        actions: [
+                          CustomButton(
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            title: "ok",
+                          ),
+                        ],
+                      ),
+                    );
+                  }
+                },
+                builder: (context, state) {
+                  if (state is AuthLoginLoading) {
+                    return Center(child: CircularProgressIndicator());
+                  }
+                  return CustomButton(
+                    onTap: () {
+                      if (formKey.currentState!.validate()) {
+                        context.read<AuthCubit>().login(
+                          emailController.text,
+                          passwordController.text,
+                        );
+                      }
+                    },
+                    title: "sign_in".tr(),
+                  );
+                },
+              ),
+              SizedBox(height: 2.h),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'dont_have_account'.tr(),
                     style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w400,
                       color: AppColors.grey,
                     ),
                   ),
-                ),
-              ],
-            ),
-            SizedBox(height: 2.h),
-            BlocConsumer<AuthCubit, AuthState>(
-              listener: (context, state) {
-                if (state is AuthLoginSuccess) {
-                  Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(builder: (context) => HomeScreen()),
-                    (route) => false,
-                  );
-                }
-                if (state is AuthLoginFailure) {
-                  showDialog(
-                    context: context,
-                    builder: (context) => AlertDialog(
-                      title: Text(
-                        "Error",
-                        style: TextStyle(
-                          color: AppColors.red,
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w600,
-                        ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => SignUpScreen()),
+                      );
+                    },
+                    child: Text(
+                      'signup'.tr(),
+                      style: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        color: AppColors.primaryPink,
                       ),
-                      content: Text(
-                        state.message,
-                        style: TextStyle(
-                          color: AppColors.red,
-                          fontSize: 13.sp,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      actions: [
-                        CustomButton(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          title: "ok",
-                        ),
-                      ],
-                    ),
-                  );
-                }
-              },
-              builder: (context, state) {
-                if (state is AuthLoginLoading) {
-                  return Center(child: CircularProgressIndicator());
-                }
-                return CustomButton(
-                  onTap: () {
-                    context.read<AuthCubit>().login(
-                      emailController.text,
-                      passwordController.text,
-                    );
-                  },
-                  title: "sign_in".tr(),
-                );
-              },
-            ),
-            SizedBox(height: 2.h),
-
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'dont_have_account'.tr(),
-                  style: TextStyle(
-                    fontWeight: FontWeight.w400,
-                    color: AppColors.grey,
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => SignUpScreen()),
-                    );
-                  },
-                  child: Text(
-                    'signup'.tr(),
-                    style: TextStyle(
-                      fontWeight: FontWeight.w400,
-                      color: AppColors.primaryPink,
                     ),
                   ),
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
