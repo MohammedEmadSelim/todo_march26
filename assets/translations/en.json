@@ -1,0 +1,20 @@
+{
+  "hello_message": "Hello NTI students",
+  "forget_password": "Forgot Password?",
+  "email":"Email",
+  "password": "Password",
+  "sign_in": "SIGN IN",
+  "dont_have_account": "Don't have an account",
+  "signup":"SignUp",
+  "confirm_password": "Confirm Password",
+  "full_name": "Full Name",
+  "have_account": "Have an account? Sign in",
+  "valid_message": "please enter a valid email",
+  "required_message":"this field is can't be empty",
+  "length_message":"password is weak",
+  "identical_message": "password not match"
+
+
+
+
+}

@@ -1,0 +1,19 @@
+{
+  "hello_message": "اهلا باجمل طلبه",
+  "forget_password": " هل نسيت كلمة السر?",
+  "email":"البريذ الالكتروني",
+  "password": "كلمه السر",
+  "sign_in": "تسجيل دخول",
+  "dont_have_account": "ليس لديك حساب",
+  "signup":"انشاء حساب",
+  "confirm_password": "تاكيد كلمة المرور",
+  "full_name": "الاسم الثلاثي",
+  "have_account": "لدي حساب بالفعل",
+  "valid_message": "ادخل بريد الكتروني صحيح",
+  "required_message":"هذا الحقل لا يمكن ان يكن فراغا",
+  "length_message":"الرقم السري ضعيف ",
+  "identical_message": "الرقم السري غير متاطبق"
+
+
+
+}
