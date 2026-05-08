@@ -11,7 +11,7 @@ import 'package:todo_march26/features/auth/presentation/components/custom_auth_t
 import 'package:todo_march26/features/auth/presentation/controllers/auth_cubit/auth_cubit.dart';
 import 'package:todo_march26/features/auth/presentation/ui_screen/login_screen.dart';
 
-import 'package:todo_march26/home_screen/presentation/ui_screens/home_screen.dart';
+import 'package:todo_march26/features/home_screen/presentation/ui_screens/home_screen.dart';
 
 class SignUpScreen extends StatelessWidget {
   SignUpScreen({super.key});
@@ -53,7 +53,7 @@ class SignUpScreen extends StatelessWidget {
 
             dropdownMenuEntries: [
               DropdownMenuEntry(value: "en", label: "Eng"),
-              DropdownMenuEntry(value: "ar", label: "هربي"),
+              DropdownMenuEntry(value: "ar", label: "عربي"),
             ],
             width: 25.w,
             // ... your other properties

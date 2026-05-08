@@ -11,7 +11,7 @@ import 'package:todo_march26/core/utlies/widgets/functions.dart';
 import 'package:todo_march26/features/auth/presentation/components/custom_auth_text_field.dart';
 import 'package:todo_march26/features/auth/presentation/controllers/auth_cubit/auth_cubit.dart';
 import 'package:todo_march26/features/auth/presentation/ui_screen/sign_up_screen.dart';
-import 'package:todo_march26/home_screen/presentation/ui_screens/home_screen.dart';
+import 'package:todo_march26/features/home_screen/presentation/ui_screens/home_screen.dart';
 
 
 class LoginScreen extends StatelessWidget {
