@@ -19,4 +19,20 @@ class AuthRepositoryImplementation extends BaseAuthRepository {
       return e.toString();
     }
   }
+
+  @override
+  Future<String> register(String email, String password) async {
+    try {
+      var res = await firebaseAuth.createUserWithEmailAndPassword(
+          email: email, password: password);
+      if (res.user != null) {
+        return "200";
+      }
+      return "something went wrong please, try again later";
+
+    } catch (e) {
+      return e.toString();
+    }
+  }
+
 }

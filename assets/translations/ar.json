@@ -9,7 +9,10 @@
   "confirm_password": "تاكيد كلمة المرور",
   "full_name": "الاسم الثلاثي",
   "have_account": "لدي حساب بالفعل",
-  "valid_message": "ادخل بريد الكتروني صحيح"
+  "valid_message": "ادخل بريد الكتروني صحيح",
+  "required_message":"هذا الحقل لا يمكن ان يكن فراغا",
+  "length_message":"الرقم السري ضعيف ",
+  "identical_message": "الرقم السري غير متاطبق"
 
 
 
