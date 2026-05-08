@@ -9,7 +9,12 @@
   "confirm_password": "Confirm Password",
   "full_name": "Full Name",
   "have_account": "Have an account? Sign in",
-  "valid_message": "please enter a valid email"
+  "valid_message": "please enter a valid email",
+  "required_message":"this field is can't be empty",
+  "length_message":"password is weak",
+  "identical_message": "password not match"
+
+
 
 
 }

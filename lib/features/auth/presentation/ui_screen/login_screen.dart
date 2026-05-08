@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 import 'package:todo_march26/core/theme/app_colors.dart';
 import 'package:todo_march26/core/utlies/widgets/custom_button.dart';
+import 'package:todo_march26/core/utlies/widgets/functions.dart';
 import 'package:todo_march26/features/auth/presentation/components/custom_auth_text_field.dart';
 import 'package:todo_march26/features/auth/presentation/controllers/auth_cubit/auth_cubit.dart';
 import 'package:todo_march26/features/auth/presentation/ui_screen/sign_up_screen.dart';
@@ -172,35 +173,7 @@ class LoginScreen extends StatelessWidget {
                     );
                   }
                   if (state is AuthLoginFailure) {
-                    showDialog(
-                      context: context,
-                      builder: (context) => AlertDialog(
-                        title: Text(
-                          "Error",
-                          style: TextStyle(
-                            color: AppColors.red,
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        content: Text(
-                          state.message,
-                          style: TextStyle(
-                            color: AppColors.red,
-                            fontSize: 13.sp,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        actions: [
-                          CustomButton(
-                            onTap: () {
-                              Navigator.pop(context);
-                            },
-                            title: "ok",
-                          ),
-                        ],
-                      ),
-                    );
+                    errorDialog(context, state.message);
                   }
                 },
                 builder: (context, state) {
@@ -255,4 +228,6 @@ class LoginScreen extends StatelessWidget {
       ),
     );
   }
+
+
 }
