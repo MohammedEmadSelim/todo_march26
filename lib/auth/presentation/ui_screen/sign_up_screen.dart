@@ -1,12 +1,32 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sizer/sizer.dart';
+import 'package:todo_march26/auth/presentation/components/custom_auth_text_field.dart';
+import 'package:todo_march26/auth/presentation/controller/auth_cubit.dart';
+import 'package:todo_march26/core/theme/app_colors.dart';
+import 'package:todo_march26/core/utiles/widgets/custom_button.dart';
+import 'package:todo_march26/core/utiles/widgets/show_dialog_func.dart';
+import 'package:todo_march26/features/home_screen/presentation/ui_screen/home_screen.dart';
 
-class SignUpScreen extends StatelessWidget {
-  SignUpScreen({super.key});
+import 'login_screen.dart';
 
+class SignUpScreen extends StatefulWidget {
+ const SignUpScreen({super.key});
+
+  @override
+  State<SignUpScreen> createState() => _SignUpScreenState();
+}
+
+class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController emailController = TextEditingController();
+
   TextEditingController fullNameController = TextEditingController();
+
   TextEditingController passwordController = TextEditingController();
+
   TextEditingController confirmPasswordController = TextEditingController();
+
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
@@ -74,6 +94,7 @@ class SignUpScreen extends StatelessWidget {
                     if (value == null || value.isEmpty) {
                       return "required_message".tr();
                     }
+                    return null;
                   },
                   controller: emailController,
                   hint: "email".tr(),
@@ -84,6 +105,7 @@ class SignUpScreen extends StatelessWidget {
                     if (value == null || value.isEmpty) {
                       return "required_message".tr();
                     }
+                    return null;
                   },
 
                   controller: fullNameController,
@@ -98,6 +120,7 @@ class SignUpScreen extends StatelessWidget {
                     if (value.length < 8) {
                       return "length_message".tr();
                     }
+                    return null;
                   },
 
                   controller: passwordController,
@@ -115,6 +138,7 @@ class SignUpScreen extends StatelessWidget {
                     if (value != passwordController.text) {
                       return "identical_message".tr();
                     }
+                    return null;
                   },
                   controller: confirmPasswordController,
                   hint: "confirm_password".tr(),
