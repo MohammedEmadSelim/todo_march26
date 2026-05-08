@@ -50,7 +50,6 @@ class SignUpScreen extends StatelessWidget {
               }
             },
             showTrailingIcon: false,
-
             dropdownMenuEntries: [
               DropdownMenuEntry(value: "en", label: "Eng"),
               DropdownMenuEntry(value: "ar", label: "عربي"),
