@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 import 'package:todo_march26/features/splash/presentation/ui_screens/splash_sceen.dart';
 
-// we following clean archeticeture pattern
+// we following clean architecture pattern
 // separation of concerns
 
 void main() async {
@@ -33,6 +33,7 @@ class MyApp extends StatelessWidget {
     return Sizer(
       builder: (context, orientation, screenType) =>
           MaterialApp(
+            debugShowCheckedModeBanner: false,
             localizationsDelegates: context.localizationDelegates,
             supportedLocales: context.supportedLocales,
             locale: context.locale,
