@@ -8,6 +8,7 @@ import 'package:todo_march26/core/utlies/widgets/functions.dart';
 import 'package:todo_march26/features/auth/presentation/components/custom_auth_text_field.dart';
 import 'package:todo_march26/features/auth/presentation/controllers/auth_cubit/auth_cubit.dart';
 import 'package:todo_march26/features/auth/presentation/ui_screen/sign_up_screen.dart';
+import 'package:todo_march26/features/home_screen/presentation/controllers/home_cubit/home_cubit.dart';
 import 'package:todo_march26/features/home_screen/presentation/ui_screens/home_screen.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -54,7 +55,8 @@ class LoginScreen extends StatelessWidget {
             },
 
             // 3. The list of options in the menu
-            itemBuilder: (BuildContext context) => [
+            itemBuilder: (BuildContext context) =>
+            [
               const PopupMenuItem<String>(value: "en", child: Text("English")),
               const PopupMenuItem<String>(value: "ar", child: Text("العربية")),
             ],
@@ -125,10 +127,9 @@ class LoginScreen extends StatelessWidget {
 
                   );
 
-                  if(!reg.hasMatch(value)){
+                  if (!reg.hasMatch(value)) {
                     return "valid_message".tr();
                   }
-
                 },
                 controller: emailController,
                 hint: "email".tr(),
@@ -168,8 +169,9 @@ class LoginScreen extends StatelessWidget {
                   if (state is AuthLoginSuccess) {
                     Navigator.pushAndRemoveUntil(
                       context,
-                      MaterialPageRoute(builder: (context) => HomeScreen()),
-                      (route) => false,
+                      MaterialPageRoute(builder: (context) =>
+                          HomeScreen()),
+                          (route) => false,
                     );
                   }
                   if (state is AuthLoginFailure) {

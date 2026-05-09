@@ -2,7 +2,7 @@ import 'dart:typed_data';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart' show BlocProvider, ReadContext;
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sizer/sizer.dart';
@@ -32,67 +32,102 @@ class HomeScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: ListView.separated(
-        separatorBuilder: (context, index) => SizedBox(height: 1.h),
-        padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 5.w),
-        itemCount: 2,
-        itemBuilder: (context, index) =>
-            Container(
-              padding: EdgeInsets.symmetric(vertical: 1.h, horizontal: 4.w),
-              height: 20.h,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12.roundToDouble()),
-                color: AppColors.primaryPink,
+      body: BlocBuilder<HomeCubit, HomeState>(
+        builder: (context, state) {
+          if (state is HomeFetchTodosLoading) {
+            return Center(
+              child: CircularProgressIndicator(color: AppColors.primaryPink),
+            );
+          }
+          if (state is HomeFetchTodosFailure) {
+            return Center(
+              child: Text(
+                state.message,
+                style: TextStyle(
+                  fontSize: 14.sp,
+                  color: AppColors.red,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Flexible(
-                        child: Text(
-                          "Design UI App",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 15.sp,
-                            color: AppColors.white,
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
+            );
+          }
+          if (state is HomeFetchTodosSuccess) {
+            var todos = state.todos;
+            return ListView.separated(
+              separatorBuilder: (context, index) => SizedBox(height: 1.h),
+              padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 5.w),
+              itemCount: todos.length,
+              itemBuilder: (context, index) =>
+                  Container(
+                    padding: EdgeInsets.symmetric(
+                        vertical: 1.h, horizontal: 4.w),
+                    height: 20.h,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12.roundToDouble()),
+                      color: AppColors.primaryPink,
+                    ),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Flexible(
+                              child: Text(
+                                todos[index].title,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 15.sp,
+                                  color: AppColors.white,
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            Icon(Icons.access_time, color: AppColors.white),
+                          ],
                         ),
-                      ),
-                      Icon(Icons.access_time, color: AppColors.white),
-                    ],
-                  ),
-                  SizedBox(height: 1.h),
-                  Expanded(
-                    child: Text(
-                      "Make Ui design for the mini project post figma link to the trello using  ...",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 13.sp,
-                        color: AppColors.white,
-                      ),
-                      maxLines: 7,
-                      overflow: TextOverflow.ellipsis,
+                        SizedBox(height: 1.h),
+                        Expanded(
+                          child: Text(
+                            todos[index].des,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 13.sp,
+                              color: AppColors.white,
+                            ),
+                            maxLines: 7,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              "deadline_message".tr(
+                                namedArgs: {"date": "${todos[index].deadline}"},
+                              ),
+                              style: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 12.sp,
+                                color: AppColors.white,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
-                  Row(
-                    children: [
-                      Text(
-                        "Created at 1 Sept 2021",
-                        style: TextStyle(
-                          fontWeight: FontWeight.w400,
-                          fontSize: 12.sp,
-                          color: AppColors.white,
-                        ),
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+            );
+          }
+          return Text(
+            "unknown_error_message".tr(),
+            style: TextStyle(
+              fontSize: 14.sp,
+              color: AppColors.red,
+              fontWeight: FontWeight.w500,
             ),
+          );
+        },
       ),
       floatingActionButton: GestureDetector(
         onTap: () {
@@ -105,7 +140,9 @@ class HomeScreen extends StatelessWidget {
                   create: (context) => HomeCubit(),
                   child: CreateTodoModalWidget(),
                 ),
-          );
+          ).then((value) {
+            context.read<HomeCubit>().fetchTodos();
+          },);
         },
         child: Container(
           height: 6.h,
@@ -225,29 +262,42 @@ class _CreateTodoModalWidgetState extends State<CreateTodoModalWidget> {
                   ],
                 ),
 
-              CustomButton(
-                onTap: () {
-                  if (formKey.currentState!.validate()) {
-                    // calling create todo
-                    print(titleController.text);
-                    print(descriptionController.text);
-                    print(deadlineController.text);
-                    print(imageUnit);
+              BlocConsumer<HomeCubit, HomeState>(
+                listener: (context, state) {
+                if(state is HomeCreateTodoSuccess)
+                  {
+                    Navigator.pop(context);
                   }
+                },
+                builder: (context, state) {
+                  if(state is HomeCreateTodoLoading){
+                    return Center(child: CircularProgressIndicator(color: AppColors.white,),);
+                  }
+                  return CustomButton(
+                    onTap: () {
+                      if (formKey.currentState!.validate()) {
+                        // calling create todo
+                        print(titleController.text);
+                        print(descriptionController.text);
+                        print(deadlineController.text);
+                        print(imageUnit);
+                      }
 
-                  // first step cubit
-                  context.read<HomeCubit>().createTodo(
-                    CreateTodoParam(
-                      title: titleController.text,
-                      description: descriptionController.text,
-                      deadline: deadlineController.text,
-                      image: image,
-                    ),
+                      // first step cubit
+                      context.read<HomeCubit>().createTodo(
+                        CreateTodoParam(
+                          title: titleController.text,
+                          description: descriptionController.text,
+                          deadline: deadlineController.text,
+                          image: image,
+                        ),
+                      );
+                    },
+                    title: "Add Todo",
+                    backgroundColor: AppColors.white,
+                    textColor: AppColors.secondaryPink,
                   );
                 },
-                title: "Add Todo",
-                backgroundColor: AppColors.white,
-                textColor: AppColors.secondaryPink,
               ),
             ],
           ),

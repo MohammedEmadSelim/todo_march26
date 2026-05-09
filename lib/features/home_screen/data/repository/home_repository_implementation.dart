@@ -1,8 +1,10 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:todo_march26/features/home_screen/data/models/todo_model.dart';
 import 'package:todo_march26/features/home_screen/domain/entites/todo_param.dart';
 import 'package:todo_march26/features/home_screen/domain/repository/base_home_repository.dart';
 
@@ -13,10 +15,12 @@ class HomeRepositoryImplementation extends BaseHomeRepository {
     try {
       if (todo.image != null) {
         final storageRef = FirebaseStorage.instance.ref("todo_march26");
-        final fileRef = storageRef.child("${DateTime.now().millisecondsSinceEpoch}.png");
+        final fileRef = storageRef.child(
+          "${DateTime.now().millisecondsSinceEpoch}.png",
+        );
         var file = File(todo.image!.path);
         var res = await fileRef.putFile(file);
-        imageLink =await res.ref.getDownloadURL();
+        imageLink = await res.ref.getDownloadURL();
         print(imageLink);
       }
       var firestore = FirebaseFirestore.instance;
@@ -26,15 +30,29 @@ class HomeRepositoryImplementation extends BaseHomeRepository {
         "title": todo.title,
         "description": todo.description,
         "deadline": todo.deadline,
-        if (imageLink != null)
-          "image": imageLink
+        if (imageLink != null) "image": imageLink,
       });
       print("done");
 
       return "200";
-    }catch(e){
+    } catch (e) {
       print(e.toString());
       return e.toString();
+    }
+  }
+
+  @override
+  Future<List<TodoModel>> getTodos() async {
+    try {
+      var id = FirebaseAuth.instance.currentUser!.uid;
+      var collection = await FirebaseFirestore.instance.collection(id).get();
+      var data = collection.docs;
+      var todo = data.map((e) {
+        return TodoModel.fromJson(e.data());
+      }).toList();
+      return todo;
+    } catch (e) {
+      throw e;
     }
   }
 }
