@@ -31,7 +31,12 @@ class HomeRepositoryImplementation extends BaseHomeRepository {
         "description": todo.description,
         "deadline": todo.deadline,
         if (imageLink != null) "image": imageLink,
-      });
+      }).then((value) {
+        value.id;
+        firestore.collection(userId).doc(value.id).update({
+          "id":value.id
+        });
+      },);
       print("done");
 
       return "200";

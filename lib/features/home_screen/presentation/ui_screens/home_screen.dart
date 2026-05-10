@@ -13,6 +13,7 @@ import 'package:todo_march26/features/home_screen/presentation/components/custom
 import 'package:todo_march26/features/home_screen/presentation/components/deadline_widget.dart';
 import 'package:todo_march26/features/home_screen/presentation/components/image_widget.dart';
 import 'package:todo_march26/features/home_screen/presentation/controllers/home_cubit/home_cubit.dart';
+import 'package:todo_march26/features/todo_details/presentation/ui_screens/todo_details_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
@@ -58,63 +59,69 @@ class HomeScreen extends StatelessWidget {
               padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 5.w),
               itemCount: todos.length,
               itemBuilder: (context, index) =>
-                  Container(
-                    padding: EdgeInsets.symmetric(
-                        vertical: 1.h, horizontal: 4.w),
-                    height: 20.h,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12.roundToDouble()),
-                      color: AppColors.primaryPink,
-                    ),
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Flexible(
-                              child: Text(
-                                todos[index].title,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 15.sp,
-                                  color: AppColors.white,
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => TodoDetailsScreen(todo: todos[index],),));
+                    },
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                          vertical: 1.h, horizontal: 4.w),
+                      height: 20.h,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12.roundToDouble()),
+                        color: AppColors.primaryPink,
+                      ),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Flexible(
+                                child: Text(
+                                  todos[index].title,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 15.sp,
+                                    color: AppColors.white,
+                                  ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
                                 ),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
                               ),
-                            ),
-                            Icon(Icons.access_time, color: AppColors.white),
-                          ],
-                        ),
-                        SizedBox(height: 1.h),
-                        Expanded(
-                          child: Text(
-                            todos[index].des,
-                            style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 13.sp,
-                              color: AppColors.white,
-                            ),
-                            maxLines: 7,
-                            overflow: TextOverflow.ellipsis,
+                              Icon(Icons.access_time, color: AppColors.white),
+                            ],
                           ),
-                        ),
-                        Row(
-                          children: [
-                            Text(
-                              "deadline_message".tr(
-                                namedArgs: {"date": "${todos[index].deadline}"},
-                              ),
+                          SizedBox(height: 1.h),
+                          Expanded(
+                            child: Text(
+                              todos[index].des,
                               style: TextStyle(
-                                fontWeight: FontWeight.w400,
-                                fontSize: 12.sp,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 13.sp,
                                 color: AppColors.white,
                               ),
+                              maxLines: 7,
                               overflow: TextOverflow.ellipsis,
                             ),
-                          ],
-                        ),
-                      ],
+                          ),
+                          Row(
+                            children: [
+                              Text(
+                                "deadline_message".tr(
+                                  namedArgs: {"date": "${todos[index].deadline}"},
+                                ),
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 12.sp,
+                                  color: AppColors.white,
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ),
             );
