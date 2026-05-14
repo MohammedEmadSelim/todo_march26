@@ -5,21 +5,25 @@ import 'package:sizer/sizer.dart';
 import 'package:todo_march26/core/theme/app_colors.dart';
 import 'package:todo_march26/core/utlies/widgets/custom_button.dart';
 import 'package:todo_march26/features/auth/presentation/components/widgets/custom_text_form_field.dart';
-import 'package:todo_march26/features/auth/presentation/ui_screens/sign_up_screen.dart';
-import 'package:todo_march26/features/home/presentation/ui_screen/home_screen.dart';
+import 'package:todo_march26/features/auth/presentation/ui_screens/login_screen.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class SignUpScreen extends StatefulWidget {
+  const SignUpScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<SignUpScreen> createState() => _SignUpScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  final emailRegex = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+\-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+class _SignUpScreenState extends State<SignUpScreen> {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final emailRegex = RegExp(
+    r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+\-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
+  );
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,9 +79,9 @@ class _LoginScreenState extends State<LoginScreen> {
           SizedBox(width: 20),
         ],
       ),
-      body: SingleChildScrollView(
-        child: Form(
-          key: formKey,
+      body: Form(
+        key: formKey,
+        child: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 4.w),
             child: Column(
@@ -101,6 +105,17 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 SizedBox(height: 2.h),
                 CustomTextFormField(
+                  hint: "full_name".tr(),
+                  controller: nameController,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "required_message".tr();
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(height: 2.h),
+                CustomTextFormField(
                   hint: 'password'.tr(),
                   obSecure: true,
                   controller: passwordController,
@@ -108,52 +123,59 @@ class _LoginScreenState extends State<LoginScreen> {
                     if (value == null || value.isEmpty) {
                       return "required_message".tr();
                     }
-                    return null ;
+                    return null;
                   },
                 ),
                 SizedBox(height: 1.h),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(
-                      'forget_password'.tr(),
-                      style: TextStyle(color: AppColors.grey),
-                    ),
-                  ],
+                CustomTextFormField(
+                  controller: confirmPasswordController,
+                  hint: "confirm_password".tr(),
+                  obSecure: true,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "required_message".tr();
+                    }
+                    if( value != passwordController.text){
+                      return "identical_message".tr();
+                    }
+                    return null;
+                  },
                 ),
+
                 SizedBox(height: 3.h),
                 CustomButton(
                   onTap: () {
                     if (formKey.currentState!.validate()) {
                       Navigator.pushAndRemoveUntil(
                         context,
-                        MaterialPageRoute(builder: (context) => HomeScreen()),
+                        MaterialPageRoute(builder: (context) => LoginScreen()),
                         (route) => false,
                       );
                     }
                   },
-                  title: 'sign_in'.tr(),
+                  title: "sign_up".tr(),
                 ),
                 SizedBox(height: 2.h),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "don't_have_account".tr(),
+                      "have_account".tr(),
                       style: TextStyle(color: AppColors.grey),
                     ),
                     SizedBox(width: 6),
                     GestureDetector(
                       onTap: () {
-                        Navigator.push(
+                        Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => SignUpScreen(),
+                            builder: (context) => LoginScreen(),
                           ),
+                          (route) => false,
                         );
                       },
                       child: Text(
-                        "signup".tr(),
+                        "signIn".tr(),
                         style: TextStyle(
                           color: AppColors.primaryPink,
                           fontWeight: FontWeight(500),
