@@ -1,0 +1,28 @@
+{
+  "hello_message": "اهلا باجمل طلبه",
+  "forget_password": " هل نسيت كلمة السر؟",
+  "change_password": "تغيير كلمه السر",
+  "email":"البريد الالكتروني",
+  "password": "كلمه السر",
+  "sign_in": "تسجيل الدخول",
+  "signin": "تسجيل الدخول",
+  "dont_have_account": "ليس لديك حساب؟",
+  "signup":"انشاء حساب",
+  "sign_up":"انشاء حساب",
+  "confirm_password": "تاكيد كلمة السر",
+  "full_name": "الاسم الثلاثي",
+  "have_account": "لدي حساب بالفعل؟ ",
+  "valid_message": "ادخل بريد الكتروني صحيح",
+  "required_message":"هذا الحقل لا يمكن ان يكون فراغا",
+  "length_message":"الرقم السري ضعيف ",
+  "identical_message": "الرقم السري غير متطابق",
+  "language_change": "عربي",
+  "reset_password_link": "ادخل بريدك الالكتروني لاستلام رمز التعيين",
+  "send_reset_password_link": "ارسال رمز اعاده التعيين",
+  "enter_the_code": "أدخل الرمز المرسل الي بريدك الالكتروني",
+  "verify_code": "التحقق من الرمز",
+  "enter_code": "ادخل الرمز"
+
+
+
+}

@@ -1,0 +1,29 @@
+{
+  "hello_message": "Hello NTI students",
+  "forget_password": "Forgot Password?",
+  "change_password": "CHANGE PASSWORD",
+  "email":"Email",
+  "password": "Password",
+  "sign_in": "Sign in",
+  "signin": "SIGN IN",
+  "dont_have_account": "Don't have an account?",
+  "sign_up":"Sign up",
+  "signup":"SIGN UP",
+  "confirm_password": "Confirm Password",
+  "full_name": "Full Name",
+  "have_account": "Have an account? ",
+  "valid_message": "please enter a valid email",
+  "required_message":"this field is can't be empty",
+  "length_message":"password is weak",
+  "identical_message": "password does not match",
+  "language_change": "En",
+  "reset_password_link": "Enter your email to receive a reset code",
+  "send_reset_password_link": "SEND RESET LINK",
+  "enter_the_code": "Enter the link sent to your email",
+  "verify_code": "VERIFY CODE",
+  "enter_code": "Enter the link"
+
+
+
+
+}
