@@ -1,8 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
+import 'package:todo_march26/features/home/presentation/controller/home_cubit.dart';
 import 'package:todo_march26/features/splash/presentation/ui_screens/splash_sceen.dart';
+
+import 'features/auth/presentation/controller/auth_cubit/auth_cubit.dart';
 
 // we following clean architecture pattern
 // separation of concerns
@@ -31,13 +35,23 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Sizer(
       builder: (context, orientation, screenType) =>
-          MaterialApp(
-            debugShowCheckedModeBanner: false,
-            localizationsDelegates: context.localizationDelegates,
-            supportedLocales: context.supportedLocales,
-            locale: context.locale,
-            title: 'Todo App',
-            home: const SplashScreen(),
+          MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) => AuthCubit(),
+              ),
+              BlocProvider(
+                create: (context) => HomeCubit()..fetchTodos(),
+              ),
+            ],
+            child: MaterialApp(
+              debugShowCheckedModeBanner: false,
+              localizationsDelegates: context.localizationDelegates,
+              supportedLocales: context.supportedLocales,
+              locale: context.locale,
+              title: 'Todo App',
+              home: const SplashScreen(),
+            ),
           ),
     );
   }

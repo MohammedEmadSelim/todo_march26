@@ -1,8 +1,18 @@
+import 'dart:typed_data';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:sizer/sizer.dart';
 import 'package:todo_march26/core/theme/app_colors.dart';
+import 'package:todo_march26/core/utlies/widgets/custom_button.dart';
+import 'package:todo_march26/features/home/domain/entity/todo_param.dart';
+import 'package:todo_march26/features/home/presentation/conponants/custom_todo_text_field.dart';
+import 'package:todo_march26/features/home/presentation/conponants/deadline_widget.dart';
+import 'package:todo_march26/features/home/presentation/conponants/image_widget.dart';
+import 'package:todo_march26/features/home/presentation/controller/home_cubit.dart';
 import 'package:todo_march26/features/todo_details/presentation/ui_screens/todo_details_screen.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -12,110 +22,142 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: Row(
-          children: [
-            SizedBox(width: 3.5.w),
-            SvgPicture.asset('assets/images/logo_icon.svg'),
-          ],
-        ),
+        leading: SvgPicture.asset("assets/images/logo_icon.svg"),
         actions: [
-          SvgPicture.asset('assets/images/Profile.svg'),
-          SizedBox(width: 6.w),
-        ],
-      ),
-      body: ListView.separated(
-        padding: EdgeInsets.only(top: 2.h),
-        itemBuilder: (context, index) => GestureDetector(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => TodoDetailsScreen()),
-            );
-          },
-          child: Card(
-            color: AppColors.primaryPink,
-            margin: EdgeInsets.symmetric(horizontal: 5.w),
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 2.h),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      SizedBox(
-                        width: 78.w,
-                        child: Text(
-                          'Design UI App',
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight(600),
-                            color: AppColors.white,
-                          ),
-                        ),
-                      ),
-                      Icon(
-                        Icons.access_time,
-                        color: AppColors.white,
-                        size: 18.sp,
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 1.h),
-                  Text(
-                    'Make Ui design for the mini project post figma link to the trello using ...',
-                    maxLines: 4,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(color: AppColors.white, fontSize: 14.sp),
-                  ),
-                  SizedBox(height: 1.h),
-                  Text(
-                    'Created at 1 Sept 2021',
-                    style: TextStyle(color: AppColors.white, fontSize: 16.sp),
-                  ),
-                ],
-              ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 2.w),
+            child: GestureDetector(
+              onTap: () {},
+              child: SvgPicture.asset("assets/images/Profile.svg"),
             ),
           ),
-        ),
-        separatorBuilder: (context, index) => SizedBox(height: 2.h),
-        itemCount: 5,
+        ],
       ),
-      floatingActionButton: GestureDetector(
-        onTap: () {
-          showModalBottomSheet(
-            isScrollControlled: true,
-            context: context,
-            builder: (context) => Container(
-              height: 85.h,
-              width: 100.w,
-              decoration: BoxDecoration(
-                color: AppColors.secondaryPink,
-                borderRadius: BorderRadius.circular(12.roundToDouble()),
-              ),
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 5.h),
-                  child: Column(
-                    children: [
-                      TodoTextField(title: 'Title'),
-                      SizedBox(height: 2.h),
-                      TodoTextField(title: 'Description', maxLines: 10),
-                      SizedBox(height: 2.h),
-                      DeadLineWidget(),
-                      SizedBox(height: 2.h),
-                      TodoTextField(title: 'Upload Pic', readOnly: true),
-                    ],
-                  ),
+      body: BlocBuilder<HomeCubit, HomeState>(
+        builder: (context, state) {
+          if (state is HomeFetchTodosLoading) {
+            return Center(
+              child: CircularProgressIndicator(color: AppColors.primaryPink),
+            );
+          }
+          if (state is HomeFetchTodosFailure) {
+            return Center(
+              child: Text(
+                state.message,
+                style: TextStyle(
+                  fontSize: 14.sp,
+                  color: AppColors.red,
+                  fontWeight: FontWeight.w500,
                 ),
+              ),
+            );
+          }
+          if (state is HomeFetchTodosSuccess) {
+            var todos = state.todos;
+            return ListView.separated(
+              separatorBuilder: (context, index) => SizedBox(height: 1.h),
+              padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 5.w),
+              itemCount: todos.length,
+              itemBuilder: (context, index) =>
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => TodoDetailsScreen(todo: todos[index],),));
+                    },
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                          vertical: 1.h, horizontal: 4.w),
+                      height: 20.h,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12.roundToDouble()),
+                        color: AppColors.primaryPink,
+                      ),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Flexible(
+                                child: Text(
+                                  todos[index].title,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 15.sp,
+                                    color: AppColors.white,
+                                  ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                              Icon(Icons.access_time, color: AppColors.white),
+                            ],
+                          ),
+                          SizedBox(height: 1.h),
+                          Expanded(
+                            child: Text(
+                              todos[index].desc,
+                              style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 13.sp,
+                                color: AppColors.white,
+                              ),
+                              maxLines: 7,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          Row(
+                            children: [
+                              Text(
+                                "Finished at : ${todos[index].deadline}",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 12.sp,
+                                  color: AppColors.white,
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+            );
+          }
+          return Center(
+            child: Text(
+              "unknown_error_message".tr(),
+              style: TextStyle(
+                fontSize: 14.sp,
+                color: AppColors.red,
+                fontWeight: FontWeight.w500,
               ),
             ),
           );
         },
-        child: CircleAvatar(
-          backgroundColor: AppColors.primaryPink,
+      ),
+      floatingActionButton: GestureDetector(
+        onTap: () {
+          // modal bottom sheet
+          showModalBottomSheet(
+            isScrollControlled: true,
+            context: context,
+            builder: (context) =>
+                BlocProvider(
+                  create: (context) => HomeCubit(),
+                  child: CreateTodoModalWidget(),
+                ),
+          ).then((value) {
+            context.read<HomeCubit>().fetchTodos();
+          },);
+        },
+        child: Container(
+          height: 6.h,
+          width: 6.h,
+          decoration: BoxDecoration(
+            color: AppColors.primaryPink,
+            shape: BoxShape.circle,
+          ),
           child: Icon(Icons.add, color: AppColors.white),
         ),
       ),
@@ -123,74 +165,151 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
-class DeadLineWidget extends StatefulWidget {
-  const DeadLineWidget({
-    super.key,
-  });
+class CreateTodoModalWidget extends StatefulWidget {
+  const CreateTodoModalWidget({super.key});
 
   @override
-  State<DeadLineWidget> createState() => _DeadLineWidgetState();
+  State<CreateTodoModalWidget> createState() => _CreateTodoModalWidgetState();
 }
 
-class _DeadLineWidgetState extends State<DeadLineWidget> {
-  final TextEditingController deadlineController = TextEditingController();
+class _CreateTodoModalWidgetState extends State<CreateTodoModalWidget> {
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+  TextEditingController titleController = TextEditingController();
+
+  TextEditingController descriptionController = TextEditingController();
+
+  TextEditingController deadlineController = TextEditingController();
+
+  Uint8List? imageUnit;
+  XFile? image;
 
   @override
   Widget build(BuildContext context) {
-    return TodoTextField(
-      controller: deadlineController,
-      title: 'Deadline',
-      readOnly: true,
-      onTap: () async {
-        var res = await showDatePicker(
-          context: context,
-          firstDate: DateTime.now(),
-          lastDate: DateTime(2030),
-        );
-        if(res != null){
-          deadlineController.text = DateFormat("EEEE, dd MMM").format(res);
-        }
-      },
-    );
-  }
-}
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 2.w),
+      height: 85.h,
+      width: 100.w,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(16.roundToDouble()),
+        color: AppColors.secondaryPink,
+      ),
+      child: SingleChildScrollView(
+        child: Form(
+          key: formKey,
+          child: Column(
+            children: [
+              SizedBox(height: 1.h),
+              Container(
+                width: 30.w,
+                height: 0.7.h,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(14.roundToDouble()),
+                  color: AppColors.white,
+                ),
+              ),
+              SizedBox(height: 1.h),
 
-class TodoTextField extends StatelessWidget {
-  const TodoTextField({
-    super.key,
-    this.maxLines = 1,
-    this.readOnly = false,
-    required this.title,
-    this.onTap,
-    this.controller,
-  });
-  final int? maxLines;
-  final bool? readOnly;
-  final String title;
-  final void Function()? onTap;
-  final TextEditingController? controller;
-  @override
-  Widget build(BuildContext context) {
-    return TextFormField(
-      controller: controller,
-      onTap: onTap,
-      maxLines: maxLines,
-      readOnly: readOnly!,
-      style: TextStyle(color: AppColors.white),
-      decoration: InputDecoration(
-        hintText: title,
-        hintStyle: TextStyle(color: AppColors.white),
-        disabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8.roundToDouble()),
-          borderSide: BorderSide(color: AppColors.white),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8.roundToDouble()),
-          borderSide: BorderSide(color: AppColors.white),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8.roundToDouble()),
-          borderSide: BorderSide(color: AppColors.white),
+              CustomTodoTextFormField(
+                hint: "Title",
+                controller: titleController,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "required_message".tr();
+                  }
+                },
+              ),
+              SizedBox(height: 1.h),
+              CustomTodoTextFormField(
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "required_message".tr();
+                  }
+                },
+
+                hint: "Description",
+                maxLines: 15,
+                controller: descriptionController,
+              ),
+              SizedBox(height: 1.h),
+              DeadLineWidget(deadlineController: deadlineController),
+              SizedBox(height: 1.h),
+              ImagesWidget(
+                image: (value) async {
+                  if (value != null) {
+                    image = value;
+                    imageUnit = await value.readAsBytes();
+                    setState(() {});
+                  }
+                  print(value);
+                },
+              ),
+              SizedBox(height: 1.h),
+              if (imageUnit != null)
+                Stack(
+                  children: [
+                    Image.memory(imageUnit!),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            imageUnit = null;
+                            setState(() {});
+                          },
+                          child: Container(
+                            margin: EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: AppColors.white,
+                            ),
+                            child: Icon(Icons.close, color: AppColors.grey),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+
+              BlocConsumer<HomeCubit, HomeState>(
+                listener: (context, state) {
+                  if(state is HomeCreateTodoSuccess)
+                  {
+                    Navigator.pop(context);
+                  }
+                },
+                builder: (context, state) {
+                  if(state is HomeCreateTodoLoading){
+                    return Center(child: CircularProgressIndicator(color: AppColors.white,),);
+                  }
+                  return CustomButton(
+                    onTap: () {
+                      if (formKey.currentState!.validate()) {
+                        // calling create todo
+                        print(titleController.text);
+                        print(descriptionController.text);
+                        print(deadlineController.text);
+                        print(imageUnit);
+                      }
+
+                      // first step cubit
+                      context.read<HomeCubit>().createTodo(
+                        CreateTodoParam(
+                          title: titleController.text,
+                          description: descriptionController.text,
+                          deadline: deadlineController.text,
+                          image: image,
+                        ),
+                      );
+                    },
+                    title: "Add Todo",
+                    backgroundColor: AppColors.white,
+                    textColor: AppColors.secondaryPink,
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );

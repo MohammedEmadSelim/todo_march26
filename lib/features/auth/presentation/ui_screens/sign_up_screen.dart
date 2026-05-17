@@ -1,10 +1,13 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sizer/sizer.dart';
 import 'package:todo_march26/core/theme/app_colors.dart';
 import 'package:todo_march26/core/utlies/widgets/custom_button.dart';
+import 'package:todo_march26/core/utlies/widgets/functions.dart';
 import 'package:todo_march26/features/auth/presentation/components/widgets/custom_text_form_field.dart';
+import 'package:todo_march26/features/auth/presentation/controller/auth_cubit/auth_cubit.dart';
 import 'package:todo_march26/features/auth/presentation/ui_screens/login_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -24,6 +27,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final emailRegex = RegExp(
     r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+\-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
   );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -135,7 +139,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     if (value == null || value.isEmpty) {
                       return "required_message".tr();
                     }
-                    if( value != passwordController.text){
+                    if (value != passwordController.text) {
                       return "identical_message".tr();
                     }
                     return null;
@@ -143,9 +147,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
 
                 SizedBox(height: 3.h),
-                CustomButton(
-                  onTap: () {
-                    if (formKey.currentState!.validate()) {
+                BlocConsumer<AuthCubit, AuthState>(
+                  listener: (context, state) {
+                    if (state is AuthRegisterFailure) {
+                      errorDialog(context, state.message);
+                    }
+                    if (state is AuthRegisterSuccess) {
                       Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(builder: (context) => LoginScreen()),
@@ -153,7 +160,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       );
                     }
                   },
-                  title: "sign_up".tr(),
+                  builder: (context, state) {
+                    if (state is AuthRegisterLoading) {
+                      return Center(
+                        child: CircularProgressIndicator(
+                          color: AppColors.primaryPink,
+                        ),
+                      );
+                    }
+                    return CustomButton(
+                      onTap: () {
+                        if (formKey.currentState!.validate()) {
+                          context.read<AuthCubit>().register(
+                            emailController.text,
+                            passwordController.text,
+                          );
+                        }
+                      },
+                      title: "sign_up".tr(),
+                    );
+                  },
                 ),
                 SizedBox(height: 2.h),
                 Row(

@@ -14,8 +14,8 @@
   "valid_message": "please enter a valid email",
   "required_message":"this field is can't be empty",
   "length_message":"password is weak",
-  "identical_message": "password not match"
-
+  "identical_message": "password not match",
+  "unknown_error_message": "there is no todos yet ..... create your first ToDo "
 
 
 

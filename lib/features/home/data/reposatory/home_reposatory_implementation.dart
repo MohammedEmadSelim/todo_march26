@@ -1,0 +1,63 @@
+import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:todo_march26/features/home/data/models/todo_model.dart';
+import 'package:todo_march26/features/home/domain/entity/todo_param.dart';
+import 'package:todo_march26/features/home/domain/reposatory/based_home_reposatory.dart';
+
+
+class HomeRepositoryImplementation extends BaseHomeRepository {
+  @override
+  Future<String> createTodo(CreateTodoParam todo) async {
+    String? imageLink;
+    try {
+      if (todo.image != null) {
+        final storageRef = FirebaseStorage.instance.ref("todo_march26");
+        final fileRef = storageRef.child(
+          "${DateTime.now().millisecondsSinceEpoch}.png",
+        );
+        var file = File(todo.image!.path);
+        var res = await fileRef.putFile(file);
+        imageLink = await res.ref.getDownloadURL();
+        print(imageLink);
+      }
+      var firestore = FirebaseFirestore.instance;
+      var userId = FirebaseAuth.instance.currentUser!.uid;
+
+      firestore.collection(userId).add({
+        "title": todo.title,
+        "desc": todo.description,
+        "deadline": todo.deadline,
+        if (imageLink != null) "image": imageLink,
+      }).then((value) {
+        value.id;
+        firestore.collection(userId).doc(value.id).update({
+          "id":value.id
+        });
+      },);
+      print("done");
+
+      return "200";
+    } catch (e) {
+      print(e.toString());
+      return e.toString();
+    }
+  }
+
+  @override
+  Future<List<TodoModel>> getTodos() async {
+    try {
+      var id = FirebaseAuth.instance.currentUser!.uid;
+      var collection = await FirebaseFirestore.instance.collection(id).get();
+      var data = collection.docs;
+      var todo = data.map((e) {
+        return TodoModel.fromJson(e.data());
+      }).toList();
+      return todo;
+    } catch (e) {
+      throw e;
+    }
+  }
+}

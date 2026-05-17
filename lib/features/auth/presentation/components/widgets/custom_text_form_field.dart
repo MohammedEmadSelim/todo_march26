@@ -1,33 +1,39 @@
-
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:todo_march26/core/theme/app_colors.dart';
 
 class CustomTextFormField extends StatefulWidget {
-  const CustomTextFormField({super.key, required this.hint, this.obSecure = false, required this.controller, this.validator});
+  const CustomTextFormField({
+    super.key,
+    required this.hint,
+    this.obSecure = false,
+    required this.controller,
+    this.validator,
+    this.onChanged,
+  });
   final String hint;
-  final bool? obSecure  ;
-  final TextEditingController controller ;
-  final String? Function(String?)? validator ;
+  final bool? obSecure;
+  final TextEditingController controller;
+  final String? Function(String?)? validator;
+  final void Function(String)? onChanged;
   @override
   State<CustomTextFormField> createState() => _CustomTextFormFieldState();
 }
 
 class _CustomTextFormFieldState extends State<CustomTextFormField> {
-  late bool visible ;
-
-
+  late bool visible;
 
   @override
   void initState() {
     visible = widget.obSecure!;
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onChanged: widget.onChanged,
       controller: widget.controller,
-      validator: widget.validator ,
+      validator: widget.validator,
       // validator: (value) {
       //   if(value == null || value.isEmpty){
       //     return "required_message".tr();
@@ -43,11 +49,16 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         hintText: widget.hint,
         suffixIcon: widget.obSecure!
             ? GestureDetector(
-            onTap: (){
-              visible = !visible;
-              setState(() {});
-            },
-            child: Icon(visible ? Icons.remove_red_eye_outlined: Icons.visibility_off_outlined))
+                onTap: () {
+                  visible = !visible;
+                  setState(() {});
+                },
+                child: Icon(
+                  visible
+                      ? Icons.remove_red_eye_outlined
+                      : Icons.visibility_off_outlined,
+                ),
+              )
             : null,
         hintStyle: TextStyle(color: AppColors.grey),
         border: OutlineInputBorder(
