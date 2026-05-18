@@ -105,8 +105,9 @@ class SignUpScreen extends StatelessWidget {
                   hint: "full_name".tr(),
                 ),
                 SizedBox(height: 2.h),
-                CustomTextFormField(
-                  validator: (value) {
+                // pass
+                  CustomTextFormField(
+                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return "required_message".tr();
                     }
@@ -114,13 +115,14 @@ class SignUpScreen extends StatelessWidget {
                       return "length_message".tr();
                     }
                   },
-            
+                  obscureText: true,
                   controller: passwordController,
                   hint: "password".tr(),
                 ),
                 SizedBox(height: 2.h),
-                CustomTextFormField(
-                  validator: (value) {
+                // try pas
+                  CustomTextFormField(
+                 validator: (value) {
                     if (value == null || value.isEmpty) {
                       return "required_message".tr();
                     }
@@ -133,7 +135,9 @@ class SignUpScreen extends StatelessWidget {
                   },
                   controller: confirmPasswordController,
                   hint: "confirm_password".tr(),
+                  obscureText: true,
                 ),
+          
                 SizedBox(height: 2.h),
             
                 SizedBox(height: 2.h),

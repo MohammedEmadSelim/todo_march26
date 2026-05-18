@@ -22,16 +22,17 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: SvgPicture.asset("assets/images/logo_icon.svg"),
-        actions: [
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 2.w),
-            child: GestureDetector(
-              onTap: () {},
-              child: SvgPicture.asset("assets/images/Profile.svg"),
-            ),
-          ),
-        ],
+        centerTitle: true,
+        title: SvgPicture.asset("assets/images/logo_icon.svg"),
+        // actions: [
+        //   Padding(
+        //     padding: EdgeInsets.symmetric(horizontal: 2.w),
+        //     child: GestureDetector(
+        //       onTap: () {},
+        //       child: SvgPicture.asset("assets/images/Profile.svg"),
+        //     ),
+        //   ),
+        // ],
       ),
       body: BlocBuilder<HomeCubit, HomeState>(
         builder: (context, state) {
