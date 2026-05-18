@@ -59,72 +59,85 @@ class HomeScreen extends StatelessWidget {
               separatorBuilder: (context, index) => SizedBox(height: 1.h),
               padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 5.w),
               itemCount: todos.length,
-              itemBuilder: (context, index) =>
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => TodoDetailsScreen(todo: todos[index],),));
-                    },
-                    child: Container(
-                      padding: EdgeInsets.symmetric(
-                          vertical: 1.h, horizontal: 4.w),
-                      height: 20.h,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12.roundToDouble()),
-                        color: AppColors.primaryPink,
-                      ),
-                      child: Column(
+              itemBuilder: (context, index) => GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          TodoDetailsScreen(todo: todos[index]),
+                    ),
+                  ).then((value) {
+                    // السطر ده معناه: لو رجعنا من صفحة التفاصيل بقيمة true (يعني تم حذف أو تعديل)
+                    if (value == true) {
+                      // نادي على دالة جلب البيانات عشان تحدث الشاشة
+                      context.read<HomeCubit>().fetchTodos();
+                    }
+                  });
+                },
+                // onTap: () {
+                //   Navigator.push(context,
+                //   MaterialPageRoute(builder: (context) => TodoDetailsScreen(todo: todos[index],),));
+                // },
+                child: Container(
+                  padding: EdgeInsets.symmetric(vertical: 1.h, horizontal: 4.w),
+                  height: 20.h,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12.roundToDouble()),
+                    color: AppColors.primaryPink,
+                  ),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Flexible(
-                                child: Text(
-                                  todos[index].title,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 15.sp,
-                                    color: AppColors.white,
-                                  ),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                              Icon(Icons.access_time, color: AppColors.white),
-                            ],
-                          ),
-                          SizedBox(height: 1.h),
-                          Expanded(
+                          Flexible(
                             child: Text(
-                              todos[index].des,
+                              todos[index].title,
                               style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 13.sp,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 15.sp,
                                 color: AppColors.white,
                               ),
-                              maxLines: 7,
+                              maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),
-                          Row(
-                            children: [
-                              Text(
-                                "deadline_message".tr(
-                                  namedArgs: {"date": "${todos[index].deadline}"},
-                                ),
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 12.sp,
-                                  color: AppColors.white,
-                                ),
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ],
+                          Icon(Icons.access_time, color: AppColors.white),
+                        ],
+                      ),
+                      SizedBox(height: 1.h),
+                      Expanded(
+                        child: Text(
+                          todos[index].des,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 13.sp,
+                            color: AppColors.white,
+                          ),
+                          maxLines: 7,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            "deadline_message".tr(
+                              namedArgs: {"date": "${todos[index].deadline}"},
+                            ),
+                            style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 12.sp,
+                              color: AppColors.white,
+                            ),
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ],
                       ),
-                    ),
+                    ],
                   ),
+                ),
+              ),
             );
           }
           return Text(
@@ -143,14 +156,13 @@ class HomeScreen extends StatelessWidget {
           showModalBottomSheet(
             isScrollControlled: true,
             context: context,
-            builder: (context) =>
-                BlocProvider(
-                  create: (context) => HomeCubit(),
-                  child: CreateTodoModalWidget(),
-                ),
+            builder: (context) => BlocProvider(
+              create: (context) => HomeCubit(),
+              child: CreateTodoModalWidget(),
+            ),
           ).then((value) {
             context.read<HomeCubit>().fetchTodos();
-          },);
+          });
         },
         child: Container(
           height: 6.h,
@@ -272,14 +284,15 @@ class _CreateTodoModalWidgetState extends State<CreateTodoModalWidget> {
 
               BlocConsumer<HomeCubit, HomeState>(
                 listener: (context, state) {
-                if(state is HomeCreateTodoSuccess)
-                  {
+                  if (state is HomeCreateTodoSuccess) {
                     Navigator.pop(context);
                   }
                 },
                 builder: (context, state) {
-                  if(state is HomeCreateTodoLoading){
-                    return Center(child: CircularProgressIndicator(color: AppColors.white,),);
+                  if (state is HomeCreateTodoLoading) {
+                    return Center(
+                      child: CircularProgressIndicator(color: AppColors.white),
+                    );
                   }
                   return CustomButton(
                     onTap: () {
