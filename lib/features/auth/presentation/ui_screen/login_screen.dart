@@ -113,122 +113,124 @@ class LoginScreen extends StatelessWidget {
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 2.w),
-        child: Form(
-          key: formKey,
-          child: Column(
-            children: [
-              SizedBox(height: 10.h),
-              Image.asset("assets/images/logo.png"),
-              SizedBox(height: 4.h),
-
-              CustomTextFormField(
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return "this field can\'nt be empty";
-                  }
-                  var reg = RegExp(
-                    r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
-
-                  );
-
-                  if(!reg.hasMatch(value)){
-                    return "valid_message".tr();
-                  }
-
-                },
-                controller: emailController,
-                hint: "email".tr(),
-              ),
-              SizedBox(height: 2.h),
-              CustomTextFormField(
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return "this field can\'nt be empty";
-                  }
-                },
-                obscureText: true,
-                controller: passwordController,
-                hint: "password".tr(),
-              ),
-              SizedBox(height: 2.h),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  GestureDetector(
-                    onTap: () {},
-                    child: Text(
-                      "forget_password".tr(),
-                      textAlign: TextAlign.end,
+        child: SingleChildScrollView(
+          child: Form(
+            key: formKey,
+            child: Column(
+              children: [
+                SizedBox(height: 10.h),
+                Image.asset("assets/images/logo.png"),
+                SizedBox(height: 4.h),
+          
+                CustomTextFormField(
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "this field can\'nt be empty";
+                    }
+                    var reg = RegExp(
+                      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
+          
+                    );
+          
+                    if(!reg.hasMatch(value)){
+                      return "valid_message".tr();
+                    }
+          
+                  },
+                  controller: emailController,
+                  hint: "email".tr(),
+                ),
+                SizedBox(height: 2.h),
+                CustomTextFormField(
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "this field can\'nt be empty";
+                    }
+                  },
+                  obscureText: true,
+                  controller: passwordController,
+                  hint: "password".tr(),
+                ),
+                SizedBox(height: 2.h),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    GestureDetector(
+                      onTap: () {},
+                      child: Text(
+                        "forget_password".tr(),
+                        textAlign: TextAlign.end,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 14.sp,
+                          color: AppColors.grey,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 2.h),
+                BlocConsumer<AuthCubit, AuthState>(
+                  listener: (context, state) {
+                    if (state is AuthLoginSuccess) {
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(builder: (context) => HomeScreen()),
+                        (route) => false,
+                      );
+                    }
+                    if (state is AuthLoginFailure) {
+                      errorDialog(context, state.message);
+                    }
+                  },
+                  builder: (context, state) {
+                    if (state is AuthLoginLoading) {
+                      return Center(child: CircularProgressIndicator());
+                    }
+                    return CustomButton(
+                      onTap: () {
+                        if (formKey.currentState!.validate()) {
+                          context.read<AuthCubit>().login(
+                            emailController.text,
+                            passwordController.text,
+                          );
+                        }
+                      },
+                      title: "sign_in".tr(),
+                    );
+                  },
+                ),
+                SizedBox(height: 2.h),
+          
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'dont_have_account'.tr(),
                       style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w400,
                         color: AppColors.grey,
                       ),
                     ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 2.h),
-              BlocConsumer<AuthCubit, AuthState>(
-                listener: (context, state) {
-                  if (state is AuthLoginSuccess) {
-                    Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(builder: (context) => HomeScreen()),
-                      (route) => false,
-                    );
-                  }
-                  if (state is AuthLoginFailure) {
-                    errorDialog(context, state.message);
-                  }
-                },
-                builder: (context, state) {
-                  if (state is AuthLoginLoading) {
-                    return Center(child: CircularProgressIndicator());
-                  }
-                  return CustomButton(
-                    onTap: () {
-                      if (formKey.currentState!.validate()) {
-                        context.read<AuthCubit>().login(
-                          emailController.text,
-                          passwordController.text,
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => SignUpScreen()),
                         );
-                      }
-                    },
-                    title: "sign_in".tr(),
-                  );
-                },
-              ),
-              SizedBox(height: 2.h),
-
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'dont_have_account'.tr(),
-                    style: TextStyle(
-                      fontWeight: FontWeight.w400,
-                      color: AppColors.grey,
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => SignUpScreen()),
-                      );
-                    },
-                    child: Text(
-                      'signup'.tr(),
-                      style: TextStyle(
-                        fontWeight: FontWeight.w400,
-                        color: AppColors.primaryPink,
+                      },
+                      child: Text(
+                        'signup'.tr(),
+                        style: TextStyle(
+                          fontWeight: FontWeight.w400,
+                          color: AppColors.primaryPink,
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-            ],
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
