@@ -12,8 +12,9 @@
   "valid_message": "ادخل بريد الكتروني صحيح",
   "required_message":"هذا الحقل لا يمكن ان يكن فراغا",
   "length_message":"الرقم السري ضعيف ",
-  "identical_message": "الرقم السري غير متاطبق"
-
+  "identical_message": "الرقم السري غير متاطبق",
+  "deadline_message": "ينتهي في {date}",
+  "unknown_error_message": "حدث شئ غير متوقع"
 
 
 }
