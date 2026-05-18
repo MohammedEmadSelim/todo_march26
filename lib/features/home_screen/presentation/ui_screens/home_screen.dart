@@ -210,7 +210,7 @@ class _CreateTodoModalWidgetState extends State<CreateTodoModalWidget> {
           key: formKey,
           child: Column(
             children: [
-              SizedBox(height: 1.h),
+              SizedBox(height: 2.h),
               Container(
                 width: 30.w,
                 height: 0.7.h,
@@ -219,7 +219,7 @@ class _CreateTodoModalWidgetState extends State<CreateTodoModalWidget> {
                   color: AppColors.white,
                 ),
               ),
-              SizedBox(height: 1.h),
+              SizedBox(height: 2.h),
 
               CustomTodoTextFormField(
                 hint: "Title",
@@ -230,7 +230,7 @@ class _CreateTodoModalWidgetState extends State<CreateTodoModalWidget> {
                   }
                 },
               ),
-              SizedBox(height: 1.h),
+              SizedBox(height: 2.h),
               CustomTodoTextFormField(
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -242,9 +242,9 @@ class _CreateTodoModalWidgetState extends State<CreateTodoModalWidget> {
                 maxLines: 15,
                 controller: descriptionController,
               ),
-              SizedBox(height: 1.h),
+              SizedBox(height: 2.h),
               DeadLineWidget(deadlineController: deadlineController),
-              SizedBox(height: 1.h),
+              SizedBox(height: 2.h),
               ImagesWidget(
                 image: (value) async {
                   if (value != null) {
@@ -255,7 +255,7 @@ class _CreateTodoModalWidgetState extends State<CreateTodoModalWidget> {
                   print(value);
                 },
               ),
-              SizedBox(height: 1.h),
+              SizedBox(height: 2.h),
               if (imageUnit != null)
                 Stack(
                   children: [
@@ -320,6 +320,8 @@ class _CreateTodoModalWidgetState extends State<CreateTodoModalWidget> {
                   );
                 },
               ),
+              SizedBox(height: 1.h),
+            
             ],
           ),
         ),
