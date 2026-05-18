@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 import 'package:todo_march26/features/auth/presentation/controllers/auth_cubit/auth_cubit.dart';
-import 'package:todo_march26/features/home_screen/presentation/ui_screens/home_screen.dart';
+
 import 'package:todo_march26/features/splash/presentation/ui_screens/splash_screen.dart';
 
 // we following clean archeticeture pattern
