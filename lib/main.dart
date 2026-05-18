@@ -6,6 +6,7 @@ import 'package:sizer/sizer.dart';
 import 'package:todo_march26/features/auth/presentation/controllers/auth_cubit/auth_cubit.dart';
 
 import 'package:todo_march26/features/splash/presentation/ui_screens/splash_screen.dart';
+import 'package:todo_march26/home_screen/presentation/controllers/home_cubit/home_cubit.dart';
 
 // we following clean archeticeture pattern
 // separation of concerns
@@ -34,15 +35,22 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Sizer(
       builder: (context, orientation, screenType) =>
-          BlocProvider(
-            create: (context) => AuthCubit(),
+          MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) => AuthCubit(),
+              ),
+              BlocProvider(
+                create: (context) => HomeCubit()..fetchTodos(),
+              ),
+            ],
             child: MaterialApp(
               debugShowCheckedModeBanner: false,
               localizationsDelegates: context.localizationDelegates,
               supportedLocales: context.supportedLocales,
               locale: context.locale,
               title: 'Todo App',
-              home: const SplashScreen(),
+              home: SplashScreen(),
             ),
           ),
     );

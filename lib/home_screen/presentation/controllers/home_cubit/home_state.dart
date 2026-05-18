@@ -13,3 +13,15 @@ final class HomeCreateTodoFailure extends HomeState {
   HomeCreateTodoFailure(this.message);
 }
 
+final class HomeFetchTodosLoading extends HomeState {}
+final class HomeFetchTodosSuccess extends HomeState {
+  final List<TodoEntity> todos;
+
+  HomeFetchTodosSuccess(this.todos);
+}
+final class HomeFetchTodosFailure extends HomeState {
+  final String message;
+
+  HomeFetchTodosFailure(this.message);
+}
+
