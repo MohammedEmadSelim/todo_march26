@@ -12,13 +12,14 @@ class CustomTextFormField extends StatefulWidget {
     this.validator,
     required this.hint,
     this.obscureText = false,
+    this.keyboardType
   });
 
   final TextEditingController controller;
   final String? Function(String?)? validator;
   final String hint;
   final bool? obscureText;
-
+TextInputType? keyboardType;
   @override
   State<CustomTextFormField> createState() => _CustomTextFormFieldState();
 }
@@ -38,7 +39,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
       controller: widget.controller,
       validator: widget.validator,
       obscureText: visible,
-
+      keyboardType: widget.keyboardType,
       decoration: InputDecoration(
         hintText: widget.hint,
         enabledBorder: OutlineInputBorder(

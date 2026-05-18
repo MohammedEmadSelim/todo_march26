@@ -6,7 +6,7 @@ import 'package:sizer/sizer.dart';
 import 'package:todo_march26/features/auth/presentation/controllers/auth_cubit/auth_cubit.dart';
 
 import 'package:todo_march26/features/splash/presentation/ui_screens/splash_screen.dart';
-import 'package:todo_march26/home_screen/presentation/controllers/home_cubit/home_cubit.dart';
+import 'package:todo_march26/features/home_screen/presentation/controllers/home_cubit/home_cubit.dart';
 
 // we following clean archeticeture pattern
 // separation of concerns

@@ -11,7 +11,7 @@ import 'package:todo_march26/core/utlies/widgets/functions.dart';
 import 'package:todo_march26/features/auth/presentation/components/custom_auth_text_field.dart';
 import 'package:todo_march26/features/auth/presentation/controllers/auth_cubit/auth_cubit.dart';
 import 'package:todo_march26/features/auth/presentation/ui_screen/login_screen.dart';
-import 'package:todo_march26/home_screen/presentation/ui_screens/home_screen.dart';
+import 'package:todo_march26/features/home_screen/presentation/ui_screens/home_screen.dart';
 
 
 class SignUpScreen extends StatelessWidget {
@@ -83,6 +83,7 @@ class SignUpScreen extends StatelessWidget {
                 SizedBox(height: 4.h),
             
                 CustomTextFormField(
+                  keyboardType: TextInputType.emailAddress,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return "required_message".tr();
@@ -93,6 +94,7 @@ class SignUpScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 2.h),
                 CustomTextFormField(
+                  
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return "required_message".tr();
