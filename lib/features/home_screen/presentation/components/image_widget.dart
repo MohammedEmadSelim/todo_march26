@@ -1,8 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:sizer/sizer.dart';
-import 'package:todo_march26/core/theme/app_colors.dart';
+
 import 'package:todo_march26/features/home_screen/presentation/components/custom_todo_text_field.dart';
 
 
@@ -24,7 +23,7 @@ class _ImagesWidgetState extends State<ImagesWidget> {
         var res = await picker.pickImage(source: ImageSource.gallery);
         widget.image(res);
       },
-      hint: "Add Image (Optional)",
+      hint: "Add Image (Optional)".tr(),
       readOnly: true,
     );
   }

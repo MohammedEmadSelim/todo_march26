@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:sizer/sizer.dart';
-import 'package:todo_march26/core/theme/app_colors.dart';
+
 import 'package:todo_march26/features/home_screen/presentation/components/custom_todo_text_field.dart';
 
 class DeadLineWidget extends StatelessWidget {
@@ -21,14 +20,13 @@ class DeadLineWidget extends StatelessWidget {
         if (res != null) {
           deadlineController.text = DateFormat("EEEE, dd MMM").format(res);
         }
-        print(res);
       },
       validator: (value) {
         if (value == null || value.isEmpty) {
           return "required_message".tr();
         }
       },
-      hint: "Deadline (Optional)",
+      hint: "Deadline (Optional)".tr(),
       controller: deadlineController,
       readOnly: true,
     );

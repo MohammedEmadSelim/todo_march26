@@ -83,6 +83,7 @@ class SignUpScreen extends StatelessWidget {
                 SizedBox(height: 4.h),
             
                 CustomTextFormField(
+                  autofillHints: const [AutofillHints.email],
                   keyboardType: TextInputType.emailAddress,
                   validator: (value) {
                     if (value == null || value.isEmpty) {

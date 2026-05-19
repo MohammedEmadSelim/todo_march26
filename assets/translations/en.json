@@ -14,9 +14,10 @@
   "length_message":"password is weak",
   "identical_message": "password not match",
   "deadline_message": "Deadline {date}",
-  "unknown_error_message": "unknow error has been happen"
-
-
-
+  "unknown_error_message": "unknow error has been happen",
+  "Save Edit" : "Save Edit",
+  "Title" : "Title",
+"Deadline (Optional)" : "Deadline (Optional)",
+"Add Image (Optional)" : "Add Image (Optional)"
 
 }

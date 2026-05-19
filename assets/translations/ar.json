@@ -14,7 +14,11 @@
   "length_message":"الرقم السري ضعيف ",
   "identical_message": "الرقم السري غير متاطبق",
   "deadline_message": "ينتهي في {date}",
-  "unknown_error_message": "حدث شئ غير متوقع"
-
+  "unknown_error_message": "حدث شئ غير ",
+  "Save Edit" : "حفظ التغيرات",
+  "Title" : "العنوان",
+  "Description" : "الوصف",
+  "Deadline (Optional)" : "المدة الزمنية(اختياري)",
+  "Add Image (Optional)" : "إضافة صورة(اختياري)"
 
 }

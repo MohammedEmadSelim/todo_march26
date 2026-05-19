@@ -1,5 +1,5 @@
 
-import 'package:easy_localization/easy_localization.dart';
+
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:todo_march26/core/theme/app_colors.dart';
