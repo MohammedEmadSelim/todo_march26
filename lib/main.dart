@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_march26/feature/auth/presentation/controllers/auth_cubit/auth_cubit.dart';
+import 'package:todo_march26/feature/home/presentation/controllers/home_cubit.dart';
 import 'package:todo_march26/feature/splach/presentation/ui_screens/splach_screen.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:sizer/sizer.dart';
@@ -27,8 +28,15 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Sizer(
       builder: (context, orientation, screenType) {
-        return BlocProvider(
-          create: (context) => AuthCubit(),
+        return MultiBlocProvider(
+          providers: [
+            BlocProvider(
+              create: (context) => AuthCubit(),
+            ),
+            BlocProvider(
+              create: (context) => HomeCubit()..fetchTodos(),
+            ),
+          ],
           child: MaterialApp(
             debugShowCheckedModeBanner: false,
             localizationsDelegates: context.localizationDelegates,

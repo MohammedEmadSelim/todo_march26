@@ -20,10 +20,22 @@
   "reset_password_link": "Enter your email to receive a reset code",
   "send_reset_password_link": "SEND RESET LINK",
   "enter_the_code": "Enter the link sent to your email",
-  "verify_code": "VERIFY CODE",
-  "enter_code": "Enter the link"
-
-
-
-
+  "verify_code": "VERIFY LINK",
+  "enter_code": "Enter the link",
+  "name": "Name",
+  "change_email": "Change Email",
+  "change_pass": "Change Password",
+  "change_language": "Change Language",
+  "logout": "Log Out",
+  "title": "Title",
+  "description": "Description",
+  "deadline": "Deadline (Optional)",
+  "add-todo": "ADD TODO",
+  "update-todo": "EDIT TODO",
+  "delete-todo": "Delete TODO",
+  "cancel": "Cancel",
+  "unknown_error_message": "unknow error has been happen",
+  "created_at_message": "Created at {date}",
+  "no_todos_to_show": "There is no Todos to show",
+  "deadline-details": "Deadline to : {date}"
 }

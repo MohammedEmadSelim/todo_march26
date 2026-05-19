@@ -21,8 +21,21 @@
   "send_reset_password_link": "ارسال رمز اعاده التعيين",
   "enter_the_code": "أدخل الرمز المرسل الي بريدك الالكتروني",
   "verify_code": "التحقق من الرمز",
-  "enter_code": "ادخل الرمز"
-
-
-
+  "enter_code": "ادخل الرمز",
+  "name": "الاسم",
+  "change_email": "تغيير البريد الالكتروني",
+  "change_pass": "تغيير كلمه السر",
+  "change_language": "تغيير اللغه",
+  "logout": "تسجيل الخروج",
+  "title": "العنوان",
+  "description": "الوصف",
+  "deadline": "موعد التسليم (اختياري)",
+  "add-todo": "اضف مهمه",
+  "update-todo": "تحديث المهمه",
+  "delete-todo": "حذف المهمه",
+  "cancel": "الغاء",
+  "unknown_error_message": "حدث شئ غير متوقع",
+  "created_at_message": "تم إنشاؤها في {date}",
+  "no_todos_to_show": "لا توجد مهمات لعرضها",
+  "deadline-details": "موعد التسليم الي : {date}"
 }
