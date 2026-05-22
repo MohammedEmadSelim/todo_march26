@@ -19,6 +19,9 @@
   "Title" : "العنوان",
   "Description" : "الوصف",
   "Deadline (Optional)" : "المدة الزمنية(اختياري)",
-  "Add Image (Optional)" : "إضافة صورة(اختياري)"
-
+  "Add Image (Optional)" : "إضافة صورة(اختياري)",
+  "Log Out" : "تسجيل الخروج",
+  "Are you sure you want to log out?" : "هل انت متأكد من الخروج؟",
+  "Cancel" : "إلغاء",
+  "Yes, Log out" : "نعم,اخرج"
 }

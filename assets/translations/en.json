@@ -18,6 +18,9 @@
   "Save Edit" : "Save Edit",
   "Title" : "Title",
 "Deadline (Optional)" : "Deadline (Optional)",
-"Add Image (Optional)" : "Add Image (Optional)"
-
+"Add Image (Optional)" : "Add Image (Optional)",
+"Log Out" : "Log Out",
+"Are you sure you want to log out?" : "Are you sure you want to log out?",
+"Cancel" :"Cancel",
+"Yes, Log out" : "Yes, Log out"
 }
