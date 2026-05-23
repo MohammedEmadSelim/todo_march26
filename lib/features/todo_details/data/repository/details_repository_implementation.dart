@@ -14,7 +14,7 @@ class DetailsRepositoryImplementation extends BaseDetailsRepo {
           .doc(todo.id)
           .update({
         "title": todo.title,
-        "description": todo.des,
+        "desc": todo.des,
         "deadline": todo.deadline,
       });
 

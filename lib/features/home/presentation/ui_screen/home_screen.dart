@@ -1,6 +1,7 @@
 import 'dart:typed_data';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -9,9 +10,9 @@ import 'package:sizer/sizer.dart';
 import 'package:todo_march26/core/theme/app_colors.dart';
 import 'package:todo_march26/core/utlies/widgets/custom_button.dart';
 import 'package:todo_march26/features/home/domain/entity/todo_param.dart';
-import 'package:todo_march26/features/home/presentation/conponants/custom_todo_text_field.dart';
-import 'package:todo_march26/features/home/presentation/conponants/deadline_widget.dart';
-import 'package:todo_march26/features/home/presentation/conponants/image_widget.dart';
+import 'package:todo_march26/features/home/presentation/components/custom_todo_text_field.dart';
+import 'package:todo_march26/features/home/presentation/components/deadline_widget.dart';
+import 'package:todo_march26/features/home/presentation/components/image_widget.dart';
 import 'package:todo_march26/features/home/presentation/controller/home_cubit.dart';
 import 'package:todo_march26/features/todo_details/presentation/ui_screens/todo_details_screen.dart';
 
@@ -56,7 +57,7 @@ class HomeScreen extends StatelessWidget {
             var todos = state.todos;
             return ListView.separated(
               separatorBuilder: (context, index) => SizedBox(height: 1.h),
-              padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 5.w),
+              padding: EdgeInsets.symmetric(vertical: 3.h, horizontal: 5.w),
               itemCount: todos.length,
               itemBuilder: (context, index) =>
                   GestureDetector(
@@ -64,37 +65,33 @@ class HomeScreen extends StatelessWidget {
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) => TodoDetailsScreen(todo: todos[index],),));
                     },
-                    child: Container(
-                      padding: EdgeInsets.symmetric(
-                          vertical: 1.h, horizontal: 4.w),
-                      height: 20.h,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12.roundToDouble()),
-                        color: AppColors.primaryPink,
-                      ),
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Flexible(
-                                child: Text(
-                                  todos[index].title,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 15.sp,
-                                    color: AppColors.white,
+                    child: Card(
+                      color: AppColors.primaryPink,
+
+                      child:Padding(
+                        padding: EdgeInsets.symmetric(horizontal:3.w,vertical: 1.h),
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Flexible(
+                                  child: Text(
+                                    todos[index].title,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 15.sp,
+                                      color: AppColors.white,
+                                    ),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
                                   ),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
                                 ),
-                              ),
-                              Icon(Icons.access_time, color: AppColors.white),
-                            ],
-                          ),
-                          SizedBox(height: 1.h),
-                          Expanded(
-                            child: Text(
+                                Icon(Icons.access_time, color: AppColors.white),
+                              ],
+                            ),
+                            SizedBox(height: 1.h),
+                            Text(
                               todos[index].desc,
                               style: TextStyle(
                                 fontWeight: FontWeight.w500,
@@ -104,21 +101,22 @@ class HomeScreen extends StatelessWidget {
                               maxLines: 7,
                               overflow: TextOverflow.ellipsis,
                             ),
-                          ),
-                          Row(
-                            children: [
-                              Text(
-                                "Finished at : ${todos[index].deadline}",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 12.sp,
-                                  color: AppColors.white,
+                            SizedBox(height: 1.h,),
+                            Row(
+                              children: [
+                                Text(
+                                  "Finished at : ${todos[index].deadline}",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 12.sp,
+                                    color: AppColors.white,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
                                 ),
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ],
-                          ),
-                        ],
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -138,7 +136,6 @@ class HomeScreen extends StatelessWidget {
       ),
       floatingActionButton: GestureDetector(
         onTap: () {
-          // modal bottom sheet
           showModalBottomSheet(
             isScrollControlled: true,
             context: context,

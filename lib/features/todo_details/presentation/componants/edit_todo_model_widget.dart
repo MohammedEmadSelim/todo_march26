@@ -5,9 +5,9 @@ import 'package:sizer/sizer.dart';
 import 'package:todo_march26/core/theme/app_colors.dart';
 import 'package:todo_march26/core/utlies/widgets/custom_button.dart';
 import 'package:todo_march26/features/home/domain/entity/todo_param.dart';
-import 'package:todo_march26/features/home/presentation/conponants/custom_todo_text_field.dart';
-import 'package:todo_march26/features/home/presentation/conponants/deadline_widget.dart';
-import 'package:todo_march26/features/home/presentation/conponants/image_widget.dart';
+import 'package:todo_march26/features/home/presentation/components/custom_todo_text_field.dart';
+import 'package:todo_march26/features/home/presentation/components/deadline_widget.dart';
+import 'package:todo_march26/features/home/presentation/components/image_widget.dart';
 import 'package:todo_march26/features/home/presentation/controller/home_cubit.dart';
 
 
