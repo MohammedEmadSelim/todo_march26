@@ -1,115 +1,26 @@
 {
   "project_info": {
-    "project_number": "575880888625",
-    "project_id": "todo-jan-number-one",
-    "storage_bucket": "todo-jan-number-one.firebasestorage.app"
+    "project_number": "394307768548",
+    "project_id": "todo-march",
+    "storage_bucket": "todo-march.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:575880888625:android:1ad3ec806aa7dd74c57010",
-        "android_client_info": {
-          "package_name": "com.NTI.todo_app"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "575880888625-7k0q36r4fpl9g68j4n5c9e98dpq51ner.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyC-JdSy1_Yk26Wrmu_tQeqSBJ3mPhNH3NE"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "575880888625-7k0q36r4fpl9g68j4n5c9e98dpq51ner.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "575880888625-0jkr0oabtk0g0mpeni5m4uiqnfq1bu91.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.dieayaplus.market"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:575880888625:android:e68997d3ddec8724c57010",
+        "mobilesdk_app_id": "1:394307768548:android:ecf05b7c44d7db3b9adcf1",
         "android_client_info": {
           "package_name": "com.NTI.todo_march26"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "575880888625-7k0q36r4fpl9g68j4n5c9e98dpq51ner.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyC-JdSy1_Yk26Wrmu_tQeqSBJ3mPhNH3NE"
+          "current_key": "AIzaSyB8WSbrUcV4p37ebdi5B_9v0_5XZVcRPbA"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "575880888625-7k0q36r4fpl9g68j4n5c9e98dpq51ner.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "575880888625-0jkr0oabtk0g0mpeni5m4uiqnfq1bu91.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.dieayaplus.market"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:575880888625:android:4f6069df2bf68dc4c57010",
-        "android_client_info": {
-          "package_name": "com.dieayaplus.dieaya_market"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "575880888625-7k0q36r4fpl9g68j4n5c9e98dpq51ner.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyC-JdSy1_Yk26Wrmu_tQeqSBJ3mPhNH3NE"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "575880888625-7k0q36r4fpl9g68j4n5c9e98dpq51ner.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "575880888625-0jkr0oabtk0g0mpeni5m4uiqnfq1bu91.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.dieayaplus.market"
-              }
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }
