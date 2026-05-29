@@ -1,13 +1,15 @@
 class TodoEntity {
+  final String? id;
   final String title;
-  final String des;
-  final String deadline;
-  final String? image;
+  final String description;
+  final String? deadline;
+  final DateTime createdAt;
 
   TodoEntity({
+    this.id,
     required this.title,
-    required this.des,
-    required this.deadline,
-    this.image,
+    required this.description,
+    this.deadline,
+    required this.createdAt,
   });
 }

@@ -18,7 +18,7 @@ class HomeRepositoryImplementation extends BaseHomeRepository {
         final fileRef = storageRef.child(
           "${DateTime.now().millisecondsSinceEpoch}.png",
         );
-        var file = File(todo.image!.path);
+        var file = File(todo.image!);
         var res = await fileRef.putFile(file);
         imageLink = await res.ref.getDownloadURL();
         print(imageLink);

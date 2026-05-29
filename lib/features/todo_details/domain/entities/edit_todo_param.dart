@@ -1,9 +1,12 @@
-class CreateTodoParam {
+class EditTodoParam {
+  final String id;
   final String title;
   final String description;
   final String? deadline;
   final String? image;
-  CreateTodoParam({
+
+  EditTodoParam({
+    required this.id,
     required this.title,
     required this.description,
     this.deadline,

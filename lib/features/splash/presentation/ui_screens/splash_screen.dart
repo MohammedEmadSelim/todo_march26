@@ -13,6 +13,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
+    FirebaseAuth.instance.signOut();
     Future.delayed(Duration(seconds: 3)).then((value) {
       Navigator.pushReplacement(
         context,
